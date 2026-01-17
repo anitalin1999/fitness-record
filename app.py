@@ -4,8 +4,9 @@ import streamlit as st
 
 # 1. 登入設定 (請在實際運行時替換為你的帳號密碼)
 # 建議使用 Streamlit 的 secrets 管理密碼以保安全
-USER_ID = "你的MFP帳號"
-PASSWORD = "你的MFP密碼"
+# 從 Streamlit 系統的安全設定中讀取帳密
+USER_ID = st.secrets["MFP_USER"]
+PASSWORD = st.secrets["MFP_PASS"]
 
 def get_mfp_data():
     try:
@@ -20,6 +21,12 @@ st.title("🔥 體態巔峰管理系統 (MFP 同步版)")
 
 # --- 2. 獲取並顯示營養數據 ---
 day_data = get_mfp_data()
+
+if day_data:
+    totals = day_data.totals
+    # ... 這裡放顯示數據的代碼
+else:
+    st.warning("⚠️ 暫時無法從 MFP 取得資料。請確認帳密正確，且今天在 MFP 已經有輸入食物紀錄。")
 
 if day_data:
     totals = day_data.totals
